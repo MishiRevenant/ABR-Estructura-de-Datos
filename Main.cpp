@@ -45,6 +45,8 @@ void imprimirASCII(Nodo* n, int nivel = 0);
 void mostrarMenu();
 
 int main() {
+    setlocale(LC_ALL, "Spanish"); // Configura el idioma local para mostrar acentos y caracteres especiales
+    
     Nodo* raiz = NULL;
     int opcion;
     do {
