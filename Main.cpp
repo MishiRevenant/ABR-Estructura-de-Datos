@@ -107,6 +107,30 @@ int main() {
 // Aquí irían las implementaciones de cada función declarada arriba
 //-----------------------------
 
+Nodo* insertarRec(Nodo* raiz, int id, string nombre, int edad, int padre_id, int madre_id) {
+    if (raiz == NULL) {
+        Nodo* nuevo = new Nodo;
+        nuevo->id = id;
+        nuevo->nombre = nombre;
+        nuevo->edad = edad;
+        nuevo->padre_id = padre_id;
+        nuevo->madre_id = madre_id;
+        nuevo->izq = NULL;
+        nuevo->der = NULL;
+        return nuevo;
+    }
+
+    if (id < raiz->id) {
+        raiz->izq = insertarRec(raiz->izq, id, nombre, edad, padre_id, madre_id);
+    } else if (id > raiz->id) {
+        raiz->der = insertarRec(raiz->der, id, nombre, edad, padre_id, madre_id);
+    } else {
+        cout << "El ID ya existe. No se permiten duplicados." << endl;
+    }
+
+    return raiz;
+}
+
 /*
 // Ejemplo de cómo empezar la definición
 Nodo* insertarRec(Nodo* raiz, int id, string nombre, int edad, int padre_id, int madre_id) {
