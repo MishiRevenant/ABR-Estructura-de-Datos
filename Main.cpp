@@ -173,6 +173,13 @@ void postordenRec(Nodo* raiz) {
     postordenRec(raiz->der);
     cout << raiz->id << " - " << raiz->nombre << " (Edad: " << raiz->edad << ")" << endl;
 }
+void imprimirASCII(Nodo* n, int nivel) {
+    if (n == NULL) return;
+    imprimirASCII(n->der, nivel + 1);
+    for (int i = 0; i < nivel; i++) cout << "    ";
+    cout << n->id << " (" << n->nombre << ")" << endl;
+    imprimirASCII(n->izq, nivel + 1);
+}
 /*
 // Ejemplo de cómo empezar la definición
 Nodo* insertarRec(Nodo* raiz, int id, string nombre, int edad, int padre_id, int madre_id) {
