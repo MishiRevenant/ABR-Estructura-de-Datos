@@ -180,6 +180,18 @@ void imprimirASCII(Nodo* n, int nivel) {
     cout << n->id << " (" << n->nombre << ")" << endl;
     imprimirASCII(n->izq, nivel + 1);
 }
+void mostrarMenu() {
+    cout << "\n--- GESTIÓN GENEALÓGICA ---\n";
+    cout << "1. Registrar nuevo miembro\n";
+    cout << "2. Buscar miembro por ID\n";
+    cout << "3. Buscar miembro por nombre\n";
+    cout << "4. Recorrido inorden\n";
+    cout << "5. Recorrido preorden\n";
+    cout << "6. Recorrido postorden\n";
+    cout << "7. Visualización ASCII\n";
+    cout << "0. Salir\n";
+    cout << "Seleccione una opción: ";
+}
 /*
 // Ejemplo de cómo empezar la definición
 Nodo* insertarRec(Nodo* raiz, int id, string nombre, int edad, int padre_id, int madre_id) {
