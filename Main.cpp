@@ -141,6 +141,18 @@ Nodo* buscarRec(Nodo* raiz, int id) {
         return buscarRec(raiz->der, id);
     }
 }
+Nodo* buscarPorNombreRec(Nodo* raiz, string nombre) {
+    if (raiz == NULL) return NULL;
+
+    if (raiz->nombre == nombre) {
+        return raiz;
+    }
+
+    Nodo* izquierda = buscarPorNombreRec(raiz->izq, nombre);
+    if (izquierda != NULL) return izquierda;
+
+    return buscarPorNombreRec(raiz->der, nombre);
+}
 /*
 // Ejemplo de cómo empezar la definición
 Nodo* insertarRec(Nodo* raiz, int id, string nombre, int edad, int padre_id, int madre_id) {
