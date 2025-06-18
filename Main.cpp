@@ -153,6 +153,26 @@ Nodo* buscarPorNombreRec(Nodo* raiz, string nombre) {
 
     return buscarPorNombreRec(raiz->der, nombre);
 }
+void inordenRec(Nodo* raiz) {
+    if (raiz == NULL) return;
+    inordenRec(raiz->izq);
+    cout << raiz->id << " - " << raiz->nombre << " (Edad: " << raiz->edad << ")" << endl;
+    inordenRec(raiz->der);
+}
+
+void preordenRec(Nodo* raiz) {
+    if (raiz == NULL) return;
+    cout << raiz->id << " - " << raiz->nombre << " (Edad: " << raiz->edad << ")" << endl;
+    preordenRec(raiz->izq);
+    preordenRec(raiz->der);
+}
+
+void postordenRec(Nodo* raiz) {
+    if (raiz == NULL) return;
+    postordenRec(raiz->izq);
+    postordenRec(raiz->der);
+    cout << raiz->id << " - " << raiz->nombre << " (Edad: " << raiz->edad << ")" << endl;
+}
 /*
 // Ejemplo de cómo empezar la definición
 Nodo* insertarRec(Nodo* raiz, int id, string nombre, int edad, int padre_id, int madre_id) {
