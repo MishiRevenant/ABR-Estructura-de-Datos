@@ -109,80 +109,61 @@ int main() {
 // Aquí irían las implementaciones de cada función declarada arriba
 //-----------------------------
 
-Nodo* insertarRec(Nodo* raiz, int id, string nombre, int edad, int padre_id, int madre_id) {
-    if (raiz == NULL) {
-        Nodo* nuevo = new Nodo;
-        nuevo->id = id;
-        nuevo->nombre = nombre;
-        nuevo->edad = edad;
-        nuevo->padre_id = padre_id;
-        nuevo->madre_id = madre_id;
-        nuevo->izq = NULL;
-        nuevo->der = NULL;
-        return nuevo;
-    }
-
-    if (id < raiz->id) {
-        raiz->izq = insertarRec(raiz->izq, id, nombre, edad, padre_id, madre_id);
-    } else if (id > raiz->id) {
-        raiz->der = insertarRec(raiz->der, id, nombre, edad, padre_id, madre_id);
-    } else {
-        cout << "El ID ya existe. No se permiten duplicados." << endl;
-    }
-
-    return raiz;
-}
-Nodo* buscarRec(Nodo* raiz, int id) {
-    if (raiz == NULL || raiz->id == id) {
+Nodo* buscarRec(Nodo* raiz, int id) {    // Busca un nodo específico por su ID de manera eficiente O(log n)
+    if (raiz == NULL || raiz->id == id) {   //nodo vacío (no encontrado) o ID encontrado
         return raiz;
     }
 
-    if (id < raiz->id) {
+    if (id < raiz->id) {                // Si el ID buscado es menor, buscar en subárbol izquierdo
         return buscarRec(raiz->izq, id);
-    } else {
+    } else {                            // Si el ID buscado es mayor, buscar en subárbol derecho
         return buscarRec(raiz->der, id);
     }
 }
-Nodo* buscarPorNombreRec(Nodo* raiz, string nombre) {
-    if (raiz == NULL) return NULL;
 
-    if (raiz->nombre == nombre) {
+Nodo* buscarPorNombreRec(Nodo* raiz, string nombre) {   // Busca un nodo por nombre - debe revisar todo el árbol O(n)
+    if (raiz == NULL) return NULL;    //si llegamos a NULL, no hay más nodos que revisar
+
+    if (raiz->nombre == nombre) {     // Si encontramos el nombre buscado, retornar el nodo
         return raiz;
     }
 
-    Nodo* izquierda = buscarPorNombreRec(raiz->izq, nombre);
-    if (izquierda != NULL) return izquierda;
+    Nodo* izquierda = buscarPorNombreRec(raiz->izq, nombre);  // Buscar recursivamente en el subárbol izquierdo
+    if (izquierda != NULL) return izquierda;   // Si encontró algo en la izquierda, retornarlo
 
-    return buscarPorNombreRec(raiz->der, nombre);
-}
-void inordenRec(Nodo* raiz) {
-    if (raiz == NULL) return;
-    inordenRec(raiz->izq);
-    cout << raiz->id << " - " << raiz->nombre << " (Edad: " << raiz->edad << ")" << endl;
-    inordenRec(raiz->der);
+    return buscarPorNombreRec(raiz->der, nombre);   // Si no encontró nada en la izquierda, buscar en el subárbol derecho
 }
 
-void preordenRec(Nodo* raiz) {
-    if (raiz == NULL) return;
-    cout << raiz->id << " - " << raiz->nombre << " (Edad: " << raiz->edad << ")" << endl;
-    preordenRec(raiz->izq);
-    preordenRec(raiz->der);
+void inordenRec(Nodo* raiz) {    // Recorre el árbol en orden: izquierda -> raíz -> derecha
+    if (raiz == NULL) return;    //si el nodo es NULL, terminar recursión
+    inordenRec(raiz->izq);    // Primero recorrer subárbol izquierdo
+    cout << raiz->id << " - " << raiz->nombre << " (Edad: " << raiz->edad << ")" << endl;   // Luego imprimir los datos del nodo actual
+    inordenRec(raiz->der);    // Finalmente recorrer subárbol derecho
 }
 
-void postordenRec(Nodo* raiz) {
-    if (raiz == NULL) return;
-    postordenRec(raiz->izq);
-    postordenRec(raiz->der);
-    cout << raiz->id << " - " << raiz->nombre << " (Edad: " << raiz->edad << ")" << endl;
+void preordenRec(Nodo* raiz) {    // Recorre el árbol en preorden: raíz -> izquierda -> derecha
+    if (raiz == NULL) return;   //si el nodo es NULL, terminar recursión
+    cout << raiz->id << " - " << raiz->nombre << " (Edad: " << raiz->edad << ")" << endl;   // Primero imprimir el nodo actual
+    preordenRec(raiz->izq);    // Luego recorrer subárbol izquierdo
+    preordenRec(raiz->der);    // Finalmente recorrer subárbol derecho
 }
-void imprimirASCII(Nodo* n, int nivel) {
-    if (n == NULL) return;
-    imprimirASCII(n->der, nivel + 1);
-    for (int i = 0; i < nivel; i++) cout << "    ";
-    cout << n->id << " (" << n->nombre << ")" << endl;
-    imprimirASCII(n->izq, nivel + 1);
+
+void postordenRec(Nodo* raiz) {    // Recorre el árbol en postorden: izquierda -> derecha -> raíz
+    if (raiz == NULL) return;   //si el nodo es NULL, terminar recursión
+    postordenRec(raiz->izq);   // Primero recorrer subárbol izquierdo
+    postordenRec(raiz->der);   // Luego recorrer subárbol derecho
+    cout << raiz->id << " - " << raiz->nombre << " (Edad: " << raiz->edad << ")" << endl;   // Finalmente imprimir el nodo actual
 }
-void mostrarMenu() {
+
+void imprimirASCII(Nodo* n, int nivel) {    // Dibuja el árbol rotado 90° hacia la izquierda para visualizar la estructura
+    if (n == NULL) return;    //si el nodo es NULL, no hay nada que imprimir
+    imprimirASCII(n->der, nivel + 1);   // Primero imprimir el subárbol derecho (aparecerá arriba en la visualización)
+    for (int i = 0; i < nivel; i++) cout << "    ";   // Imprimir espacios de indentación según el nivel del nodo
+    cout << n->id << " (" << n->nombre << ")" << endl;   // Imprimir el ID y nombre del nodo actual
+    imprimirASCII(n->izq, nivel + 1);   // Finalmente imprimir el subárbol izquierdo 
+}
+
+void mostrarMenu() {         // Muestra la interfaz de usuario con todas las opciones disponibles
     cout << "\n--- GESTIÓN GENEALÓGICA ---\n";
     cout << "1. Registrar nuevo miembro\n";
     cout << "2. Buscar miembro por ID\n";
