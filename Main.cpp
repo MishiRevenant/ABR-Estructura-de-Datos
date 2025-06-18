@@ -1,142 +1,116 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
 using namespace std;
 
-//---------------------------
-// ESTRUCTURA DE DATOS NODO
-//---------------------------
+//----------------------------
+// Definición de la estructura Nodo
+//----------------------------
 struct Nodo {
-    int id;                 // ID único del miembro (clave principal)
-    string nombre;          // Nombre del miembro
-    int edad;               // Edad del miembro (puede usarse para búsquedas o informes)
-    int padre_id;           // ID del padre (-1 si desconocido)
-    int madre_id;           // ID de la madre (-1 si desconocido)
-    Nodo* izq;              // Hijo izquierdo (ABB por ID)
-    Nodo* der;              // Hijo derecho
-
-    Nodo(int _id, string _nombre, int _edad, int _padre=-1, int _madre=-1)
-        : id(_id), nombre(_nombre), edad(_edad), padre_id(_padre), madre_id(_madre), izq(nullptr), der(nullptr) {}
+    int id;            // ID del miembro
+    string nombre;     // Nombre
+    int edad;          // Edad
+    int padre_id;      // ID del padre
+    int madre_id;      // ID de la madre
+    Nodo* izq;         // Hijo izquierdo
+    Nodo* der;         // Hijo derecho
 };
 
-//---------------------------
-// CLASE ÁRBOL GENEALÓGICO
-//---------------------------
-class ArbolGenealogico {
-private:
-    Nodo* raiz;
+//----------------------------
+// Declaración de funciones (solo nombres, sin implementación)
+//----------------------------
 
-    // Aquí se agregarán las funciones privadas recursivas necesarias para cada funcionalidad
+// Registrar nuevo miembro
+Nodo* insertarRec(Nodo* raiz, int id, string nombre, int edad, int padre_id, int madre_id);
 
-public:
-    ArbolGenealogico() : raiz(nullptr) {}
+// Buscar miembro por ID
+Nodo* buscarRec(Nodo* raiz, int id);
 
-    //---------------------
-    // 1. Gestión de Miembros Genealógicos
-    //---------------------
+// Buscar miembro por nombre
+Nodo* buscarPorNombreRec(Nodo* raiz, string nombre);
 
-    // Registrar nuevo miembro en el ABB
-    // void insertar(int id, string nombre, int edad, int padre_id, int madre_id);
+// Recorrido inorden
+void inordenRec(Nodo* raiz);
 
-    // Eliminar miembro y re-enlazar el sub-árbol afectado
-    // void eliminar(int id);
+// Recorrido preorden
+void preordenRec(Nodo* raiz);
 
-    // Modificar datos de un miembro (nombre, edad o vínculos)
-    // void modificar(int id, string nuevoNombre, int nuevaEdad, int nuevoPadre, int nuevaMadre);
+// Recorrido postorden
+void postordenRec(Nodo* raiz);
 
-    // Buscar miembro por ID
-    // Nodo* buscarPorID(int id);
+// Visualización tipo ASCII
+void imprimirASCII(Nodo* n, int nivel = 0);
 
-    // Buscar miembro por nombre (puede requerir recorrido completo)
-    // Nodo* buscarPorNombre(string nombre);
+// Mostrar menú de usuario
+void mostrarMenu();
 
-    // Listar miembros activos del árbol (por inorden o por criterios)
-    // void listarMiembros();
-
-    //---------------------
-    // 2. Consultas de Relación Familiar
-    //---------------------
-
-    // Obtener ancestros directos de un miembro (camino hasta la raíz)
-    // void mostrarAncestros(int id);
-
-    // Obtener descendientes/sub-ramas completas
-    // void mostrarDescendientes(int id);
-
-    // Calcular nivel generacional (profundidad respecto al ancestro fundador)
-    // int nivelGeneracional(int id);
-
-    // Detectar ancestro común más cercano entre dos IDs
-    // Nodo* ancestroComun(int id1, int id2);
-
-    //---------------------
-    // 3. Recorridos y Visualización
-    //---------------------
-
-    // Recorrido inorden para lista alfabética por ID o nombre
-    // void recorridoInorden();
-
-    // Recorrido preorden (raíz-hojas)
-    // void recorridoPreorden();
-
-    // Recorrido postorden (hojas-raíz)
-    // void recorridoPostorden();
-
-    // Recorrido por niveles (BFS) para mostrar generaciones
-    // void recorridoPorNiveles();
-
-    // Visualización tipo ASCII del árbol (como en tus ejemplos)
-    // void imprimirASCII();
-
-    //---------------------
-    // 4. Interfaz de Usuario
-    //---------------------
-
-    // Menú por consola (opciones numéricas)
-    // void mostrarMenu();
-
-    //---------------------
-    // 5. Persistencia de Datos (opcional)
-    //---------------------
-
-    // Guardar el árbol en archivo de texto (save())
-    // void guardarArchivo(const string& nombreArchivo);
-
-    // Cargar árbol desde archivo (load())
-    // void cargarArchivo(const string& nombreArchivo);
-
-    // Exportar recorrido inorden a CSV para investigación externa
-    // void exportarCSV(const string& nombreArchivo);
-};
-
-//---------------------------
-// PROGRAMA PRINCIPAL
-//---------------------------
 int main() {
-    ArbolGenealogico genealogia;
+    Nodo* raiz = NULL;
     int opcion;
-
-    // genealogia.cargarArchivo("familia.txt");  // Opcional: cargar datos al inicio
-
     do {
-        // genealogia.mostrarMenu();
-        // Leer opción del usuario y llamar a la funcionalidad correspondiente
-        /*
-        1. Registrar nuevo miembro
-        2. Buscar miembro
-        3. Eliminar miembro
-        4. Modificar miembro
-        5. Mostrar ancestros
-        6. Mostrar descendientes
-        7. Recorrido inorden
-        8. Recorrido preorden
-        9. Recorrido por niveles
-        10. Guardar árbol
-        0. Salir
-        */
-    } while(opcion != 0);
+        mostrarMenu();
+        cin >> opcion;
+        if(cin.fail()){ cin.clear(); cin.ignore(256,'\n'); opcion=-1; }
 
-    // genealogia.guardarArchivo("familia.txt"); // Guardar al salir
+        if(opcion == 1) {
+            int id, edad, padre_id, madre_id;
+            string nombre;
+            cout << "ID: "; cin >> id;
+            cout << "Nombre: "; cin.ignore(); getline(cin, nombre);
+            cout << "Edad: "; cin >> edad;
+            cout << "ID Padre (-1 si desconoce): "; cin >> padre_id;
+            cout << "ID Madre (-1 si desconoce): "; cin >> madre_id;
+            // raiz = insertarRec( ... );
+        }
+        else if(opcion == 2) {
+            int id;
+            cout << "ID a buscar: "; cin >> id;
+            // Nodo* res = buscarRec( ... );
+            // if(res) cout << "Encontrado..." << endl;
+            // else cout << "No encontrado." << endl;
+        }
+        else if(opcion == 3) {
+            string nombre;
+            cout << "Nombre a buscar: "; cin.ignore(); getline(cin, nombre);
+            // Nodo* res = buscarPorNombreRec( ... );
+            // if(res) cout << "Encontrado..." << endl;
+            // else cout << "No encontrado." << endl;
+        }
+        else if(opcion == 4) {
+            cout << "Recorrido Inorden:" << endl;
+            // inordenRec( ... );
+        }
+        else if(opcion == 5) {
+            cout << "Recorrido Preorden:" << endl;
+            // preordenRec( ... );
+        }
+        else if(opcion == 6) {
+            cout << "Recorrido Postorden:" << endl;
+            // postordenRec( ... );
+        }
+        else if(opcion == 7) {
+            cout << "Visualización del árbol (ASCII):" << endl;
+            // imprimirASCII( ... );
+        }
+        else if(opcion == 0) {
+            cout << "Saliendo..." << endl;
+        }
+        else {
+            cout << "Opción inválida." << endl;
+        }
+    } while(opcion != 0);
 
     return 0;
 }
+
+//-----------------------------
+// Aquí irían las implementaciones de cada función declarada arriba
+//-----------------------------
+
+/*
+// Ejemplo de cómo empezar la definición
+Nodo* insertarRec(Nodo* raiz, int id, string nombre, int edad, int padre_id, int madre_id) {
+    // Implementación aquí
+}
+*/
 
