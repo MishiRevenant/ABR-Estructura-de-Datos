@@ -62,37 +62,38 @@ int main() {
             cout << "Edad: "; cin >> edad;
             cout << "ID Padre (-1 si desconoce): "; cin >> padre_id;
             cout << "ID Madre (-1 si desconoce): "; cin >> madre_id;
-            // raiz = insertarRec( ... );
+            raiz = insertarRec(raiz, id, nombre, edad, padre_id, madre_id);
         }
         else if(opcion == 2) {
             int id;
             cout << "ID a buscar: "; cin >> id;
-            // Nodo* res = buscarRec( ... );
-            // if(res) cout << "Encontrado..." << endl;
-            // else cout << "No encontrado." << endl;
+            Nodo* res = buscarRec(raiz, id);
+            if(res) cout << "Encontrado: " << res->nombre << endl;
+            else cout << "No encontrado." << endl;
         }
         else if(opcion == 3) {
             string nombre;
             cout << "Nombre a buscar: "; cin.ignore(); getline(cin, nombre);
-            // Nodo* res = buscarPorNombreRec( ... );
-            // if(res) cout << "Encontrado..." << endl;
-            // else cout << "No encontrado." << endl;
+            Nodo* res = buscarPorNombreRec(raiz, nombre);
+            if(res) cout << "Encontrado ID " << res->id << endl;
+            else cout << "No encontrado." << endl;
+
         }
         else if(opcion == 4) {
             cout << "Recorrido Inorden:" << endl;
-            // inordenRec( ... );
+            inordenRec(raiz);
         }
         else if(opcion == 5) {
             cout << "Recorrido Preorden:" << endl;
-            // preordenRec( ... );
+            preordenRec(raiz);
         }
         else if(opcion == 6) {
             cout << "Recorrido Postorden:" << endl;
-            // postordenRec( ... );
+            postordenRec(raiz);
         }
         else if(opcion == 7) {
             cout << "Visualización del árbol (ASCII):" << endl;
-            // imprimirASCII( ... );
+            imprimirASCII(raiz);
         }
         else if(opcion == 0) {
             cout << "Saliendo..." << endl;
@@ -176,6 +177,7 @@ void mostrarMenu() {         // Muestra la interfaz de usuario con todas las opc
     cout << "Seleccione una opción: ";
 }
 // Inserta un nuevo nodo en el árbol de búsqueda binaria por ID
+Nodo* insertarRec(Nodo* raiz, int id, string nombre, int edad, int padre_id, int madre_id) {
 if (raiz == NULL) {
         Nodo* nuevo = new Nodo;
         nuevo->id = id;
