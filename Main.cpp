@@ -175,11 +175,24 @@ void mostrarMenu() {         // Muestra la interfaz de usuario con todas las opc
     cout << "0. Salir\n";
     cout << "Seleccione una opción: ";
 }
-/*
-// Ejemplo de cómo empezar la definición
-Nodo* insertarRec(Nodo* raiz, int id, string nombre, int edad, int padre_id, int madre_id) {
-    // Implementación aquí
-}
-*/
-//Prueba conmit
+// Inserta un nuevo nodo en el árbol de búsqueda binaria por ID
+if (raiz == NULL) {
+        Nodo* nuevo = new Nodo;
+        nuevo->id = id;
+        nuevo->nombre = nombre;
+        nuevo->edad = edad;
+        nuevo->padre_id = padre_id;
+        nuevo->madre_id = madre_id;
+        nuevo->izq = nuevo->der = NULL;
+        return nuevo;
+    }
 
+    if (id < raiz->id) {
+        raiz->izq = insertarRec(raiz->izq, id, nombre, edad, padre_id, madre_id);
+    } else if (id > raiz->id) {
+        raiz->der = insertarRec(raiz->der, id, nombre, edad, padre_id, madre_id);
+    } else {
+        cout << "ID duplicado. No se insertó." << endl;
+    }
+    return raiz;
+}
